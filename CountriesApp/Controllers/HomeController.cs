@@ -11,9 +11,9 @@ namespace CountriesApp.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
-        public async Task<IActionResult> GetCountries()
+        public async Task<List<Country>> GetCountries()
         {
             List<Country> countryList = new List<Country>();
 
@@ -24,9 +24,7 @@ namespace CountriesApp.Controllers
                 countryList = JsonConvert.DeserializeObject<List<Country>>(apiResponse);
             }
 
-            var test = 1;
-
-            return View(countryList);
+            return countryList;
         }
     }
 }
