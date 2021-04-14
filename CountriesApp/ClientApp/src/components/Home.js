@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Table } from 'reactstrap';
+import * as utils from './Utilities/utils.js'; 
+
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -17,7 +21,7 @@ export class Home extends Component {
             <div>
                 <h1>Countries of the World!</h1>
                 <p>Please select a country to see more information</p>
-                <table className='table table-hover' aria-labelledby="countriesLabel">
+                <Table hover aria-labelledby="countriesLabel">
                     <thead>
                         <tr>
                             <th>Country</th>
@@ -28,13 +32,27 @@ export class Home extends Component {
                     <tbody>
                         {countries.map(country =>
                             <tr key={country.code}>
-                                <td><a href='#'>{country.name}</a></td>
-                                <td><a href='#'>{country.region}</a></td>
-                                <td><a href='#'>{country.subRegion}</a></td>
+                                <td>
+                                    <Link to={{
+                                        pathname: `/country/` + country.code,
+                                        state: [{id: country.code, countries: countries }]
+                                    }}>
+                                        {country.name}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link to={{
+                                        pathname: `/region/` + country.region,
+                                        state: [{countries: countries}]
+                                    }}>
+                                        {country.region}
+                                    </Link>
+                                </td>
+                                <td>{country.subRegion}</td>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                            )}
+                        </tbody>
+                    </Table>
             </div>
         );
     }
@@ -52,10 +70,8 @@ export class Home extends Component {
     }
 
     async populateCountryData() {
-        const response = await fetch('home');
-        console.log(response);
+        const response = await fetch('home/getcountries');
         const data = await response.json();
-        console.log(data);
         this.setState({ countries: data, loading: false });
     }
 }

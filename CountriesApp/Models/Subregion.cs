@@ -13,6 +13,6 @@ namespace CountriesApp.Models
 
         public string Region { get; set; }
 
-        //public List<Country> Countries { get; set; }
+        public List<Country> Countries { get; set; }
     }
 }
